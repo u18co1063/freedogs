@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dogs Bot Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        /* Reset margins and padding, set box-sizing globally */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Ensure the html and body occupy the full height of the viewport */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Container setup to take up full height of the viewport */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh; /* Full viewport height */
+            max-width: 375px;
+            margin: 0 auto;
+            background-color: black;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #007aff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .cancel {
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+        }
+
+        .title-text {
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .bone {
+            font-size: 16px;
+        }
+
+        .bot {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .loader {
+            width: 30px;
+        }
+
+        /* Content area, centered in the middle of the screen */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centers content vertically */
+            align-items: center; /* Centers content horizontally */
+            text-align: center;
+            padding: 20px;
+        }
+
+        .dog-icon {
+            width: 130px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Marquee styles */
+        .marquee-container {
+            height: 100px; /* Adjust as needed */
+            overflow: hidden;
+            position: relative;
+            background-color: black;
+            border-radius: 10px;
+            margin-top: 0px;
+        }
+
+        .marquee {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            animation: marqueeAnimation 20s linear infinite;
+        }
+
+        .marquee div {
+            padding: 10px;
+            font-size: 14px;
+            color: white;
+            font-size: 13px;
+            font-family: Roboto;
+        }
+
+        @keyframes marqueeAnimation {
+            from { top: 100%; }
+            to { top: -200%; }
+        }
+
+        .btn-whaaat, .btn-share {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 80%;
+            max-width: 300px;
+            height: 40px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reward_box {
+            width: 100%;
+            height: 130%;
+            border-radius: 5px;
+            padding: 13px;
+            font-size: 18px;
+            background-color: black;
+            border: 2px solid white;
+            color: white;
+            outline: none;
+        }
+
+        .free-text {
+            font-weight: 400;
+            color: white;
+            font-family: Roboto;
+        }
+
+        .verifying-section {
+            display: none; /* Initially hidden */
+            text-align: center;
+            color: white;
+        }
+
+        .verifying-text {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Footer section */
+        .footer {
+            padding: 10px 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .support-btn {
+            width: 100%;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+        }
+        .stats{
+          background: #007aff;
+          padding: 5px;
+          border-radius: 30px;
+          color: white;
+          margin-top: -3em;
+        }
+        .nav-item {
+            font-size: 14px;
+            cursor: pointer;
+            color: #007aff;
+        }
+
+        .nav-item.active {
+            font-weight: bold;
+        }
+
+        /* Progress bar styles */
+        .progress-container {
+            width: 80%;
+            max-width: 300px;
+            background-color: #ddd;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 10px;
+            width: 0;
+            background-color: #007aff;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            top: -20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="cancel">Cancel</span>
+            <div class="title">
+                <span class="title-text">Dogs Airdrop by Notcoin<span class="bone"></span></span>
+                <span class="bot"></span>
+            </div>
+            <div class="menu-icon">•••</div>
+        </div>
+        <div class="content">
+          <div class="stats">
+            <p>closing on September 10</p>
+          </div>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzqUmVoz_joFs6SmZOz8VjWlMz-1FXLLCfiUUgJ-36G2ANNzP9Gk8zNR70kE592nknCehiLCC9KgqQ0DX2XreOAg3c2eDprJyXfTQot_clIXd6o6j8OYwXCmqCV48f3u-eFk_AnQYu1X0gU_0zQAK_goTg2ptJRIH0eUeXowIwkriyC3bLAacbdUnwW_o/s544/dog.png" alt="Dog Icon" class="dog-icon">
+            <h1 class="free-text">FREE 10,000 $DOGS Reward</h1>
+            
+            <div class="video-thumbnail">
+                <input type="text" class="reward_box" placeholder="How old is your telegram" required>
+            </div>
+            <div class="verifying-section">
+                <img class="loader" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlmELA2qTwF-JL9dCvUSpCg4tzIgq2v7MZQsbYupslAnXMNprd1EWq8k8WWpfmImJmCyKPMykSXPAiBoxchaDBgBXbI72FWQLuSqC9_-m8CCBuDHKP5w9cqgcSJB5_Oc1WKCARwxyxv6iLMQrdgkT95b8gB1KmMImf8QfrzI3LjrG5hKWt4LRfvGpHC7k/s200/loading-gif.gif" alt="Loading..." class="loading-gif">
+                <br>
+                <div class="verifying-text">Verifying please wait...</div><br>
+            </div>
+            <button class="btn-whaaat" onclick="handleClick()">Check</button>
+
+            <!-- Progress bar and Share button initially hidden -->
+            <div class="progress-container" style="display: none;">
+                <div class="progress-text">0%</div>
+                <div class="progress-bar"></div>
+            </div>
+            <button class="btn-share" style="display: none;" onclick="handleShare()">Share</button>
+        </div>
+        <div class="footer">
+            <button class="support-btn">Support pavel</button>
+            <!-- Marquee container -->
+            <div class="marquee-container">
+                <div class="marquee">
+                  <div>Congrats 🥳 UcM..uvZ got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UIx..kMc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UaV..xMl got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UsQ..yRc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UtW..uvZ got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UkP..kMc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UnB..xMl got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UfH..yRc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UbK..uvZ got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UoL..kMc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UmF..xMl got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UvS..yRc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UqT..uvZ got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UaX..kMc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UgC..xMl got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UhD..yRc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UrY..uvZ got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UiN..kMc got 10,000 $DOGS</div>
+                  <div>Congrats 🥳 UlM..xMl got 10,000 $DOGS</div>
+                    <!-- More marquee items -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Confetti.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        let clickState = 0; // 0 for f1, 1 for f2
+        let progress = 0;
+      
+        function f1() {
+            console.log("Function f1() called");
+            // Add logic for f1() here
+        }
+
+        function f2() {
+            console.log("Function f2() called");
+            // Add logic for f2() here
+            launchConfetti();
+            document.querySelector('.btn-whaaat').style.display = 'none'; // Hide "Claim" button
+            document.querySelector('.verifying-section').innerHTML = ''; // Remove congratulatory message
+            document.querySelector('.progress-container').style.display = 'block'; // Show progress bar
+            document.querySelector('.btn-share').style.display = 'block'; // Show "Share" button
+           
+        }
+
+        function launchConfetti() {
+            confetti({
+                particleCount: 200,
+                spread: 60,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function handleClick() {
+            if (clickState === 0) {
+                verify(); // Call verify first
+                clickState = 1; // Set state to call f2() next
+            } else {
+                f2(); // Call f2() if state is 1
+                clickState = 0; // Reset state to call f1() next
+            }
+        }
+
+        function verify() {
+            // Hide the input box
+            document.querySelector('.reward_box').style.display = 'none';
+            
+            // Show the verifying section with the GIF and text
+            document.querySelector('.verifying-section').style.display = 'block';
+            
+            // Simulate a verification process with a timeout
+            setTimeout(function() {
+                // Here you could add further logic like showing a success message
+                // or redirecting the user to another page
+                launchConfetti();
+                document.querySelector('.btn-whaaat').style.display = 'none'; // Hide "Check" button
+                document.querySelector('.support-btn').innerHTML='Support Pavel';
+                document.querySelector('.support-btn').addEventListener=handleClick();
+                document.querySelector('.verifying-section').style.marginTop='-4em'
+                document.querySelector('.progress-container').style.display = 'block';
+                document.querySelector('.btn-share').setAttribute('href', 'https://www.google.com');
+                
+                document.querySelector('.verifying-section').innerHTML = `
+                <div class="verifying-text"></div>
+                <div class="success-message">
+                    🥳 <b style="font-family:Roboto;">Congratulations</b> 🥳<br><br>
+                    You have been selected to receive the airdrop 
+                </div>
+                <p style="font-family:roboto">Kindly share to 5 whatsapp groups or your friends to claim your reward instantly</p><br><br>
+                `;
+            }, 3000); // 3 seconds delay for simulation
+        }
+
+        function handleShare() {
+            progress += 10;
+            if (progress > 100) progress = 100; // Ensure progress doesn't exceed 100%
+            window.open('https://www.example.com', '_blank');
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.querySelector('.progress-text').textContent = `${progress}%`;
+            if (progress == 100){
+              document.querySelector('.btn-share').textContent='Claim now';
+              window.open('https://www.google.com', '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
